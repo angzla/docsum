@@ -37,7 +37,13 @@ jobs:
 
       - name: Test declaration
         run: |
-          for file in docs/*; do python3 docsum.py ${file}; done
+          python docsum.py docs/news-mx.txt
+          python docsum.py docs/estados-unidos-admite-haber-perdido-la-pista-de-32000-menores-migrantes-no-acompanados.html
+          python docsum.py docs/declaration.txt
+          python docsum.py docs/2023.findings-emnlp.945.pdf
+          python docsum.py docs/constitution-mx.txt
+          python docsum.py docs/hamlet.txt   
+
 
 
 # name: tests
