@@ -1,6 +1,6 @@
 # docsum ![](https://github.com/angzla/docsum/workflows/tests/badge.svg)
 
-Use an LLM to summarize a document on the command line.
+Use an LLM to summarize a document on the command line. Uses groq and recursive summarization for bigger documents. Can summarize documents of all file types using fulltext. 
 
 The following example summarizes the declaration of independence.
 ```
