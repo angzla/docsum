@@ -10,7 +10,7 @@ jobs:
   tests:
     strategy:
       matrix:
-        python: [3.11.9]
+        python: [3.11.9, 3.8, 3.9]
     runs-on: ubuntu-latest
     env:
       GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
@@ -37,7 +37,4 @@ jobs:
 
       - name: Test declaration
         run: |
-          python docsum.py docs/news-mx.txt
-          python docsum.py docs/estados-unidos-admite-haber-perdido-la-pista-de-32000-menores-migrantes-no-acompanados.html
-          python docsum.py docs/declaration.txt
-          python docsum.py docs/2023.findings-emnlp.945.pdf
+         for file in docs/*; do python3 docsum.py ${file}; done
