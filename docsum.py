@@ -7,7 +7,7 @@ import time
 def split_document_into_chunks(text):
     chunk_size = 15
     # Step 1: Split the text into sentences
-    sentences = re.split(r'(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s', text)
+    sentences = re.split(r'\n{2,}|(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?)\s', text)
     
     # Step 2: Split sentences into chunks of chunk_size sentences
     chunks = [' '.join(sentences[i:i + chunk_size]) 
@@ -17,19 +17,25 @@ def split_document_into_chunks(text):
 
 
 def summarize_text(text, client):
-    chat_completion = client.chat.completions.create(
-        messages=[
-            {
-                'role': 'system',
-                'content': 'Summarize the input text below. Limit the summary to 1 paragraph and use a 1st grade reading level.',
-            },
-            {
-                'role': 'user',
-                'content': text,
-            }
-        ],
-        model="llama3-8b-8192",
-    )
+    try:
+        chat_completion = client.chat.completions.create(
+            messages=[
+                {
+                    'role': 'system',
+                    'content': 'Summarize the input text below. Limit the summary to 1 paragraph and use a 1st grade reading level.',
+                },
+                {
+                    'role': 'user',
+                    'content': text,
+                }
+            ],
+            model="llama3-8b-8192",
+        )
+    except groq.InternalServerError:
+         time.sleep(5)
+    except (groq.BadRequestError, groq.RateLimitError):
+         time.sleep(5)
+         
     return chat_completion.choices[0].message.content
 
 
